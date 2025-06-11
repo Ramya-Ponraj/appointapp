@@ -1,0 +1,580 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Daily Report",
+        "formDescription": "Submit your daily report here",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name of the Team member",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Job Role",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Task assigned",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Status of the task",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Completed"
+                  },
+                  {
+                    "option": "Pending"
+                  }
+                ]
+              },
+              "multiselect": true,
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Urgency",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "High"
+                  },
+                  {
+                    "option": "Medium"
+                  },
+                  {
+                    "option": "Low"
+                  }
+                ]
+              },
+              "multiselect": true,
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email ID",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1040,
+        -40
+      ],
+      "id": "b109bcac-33d1-4935-92c2-e06e10e2e329",
+      "name": "On form submission",
+      "webhookId": "a22763b4-99cc-41b2-a614-0323442e30ca",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\"Hey , {{ $json['Name of the Team member'] }}I just wanted to take a moment to recognize the fantastic work you did on your project. Your dedication and attention to detail really stood out, and your efforts played a big part in its success. Thanks for consistently bringing your best — it makes a real difference!\" The email should be formal. project name:task assigned,your name:ramya",
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        880,
+        -360
+      ],
+      "id": "8c245167-ea5e-4e8b-b0a4-f2a49ebe25de",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        40
+      ],
+      "id": "43306911-2c92-4756-b849-23ea7cd42f0c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "VZi4c3ZU6Yg8We1s",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1TUlMlgRfOXAW3H3cUuA8ezZYzZNIkAYeCPyYkvrLZUk",
+          "mode": "list",
+          "cachedResultName": "Daily report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TUlMlgRfOXAW3H3cUuA8ezZYzZNIkAYeCPyYkvrLZUk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TUlMlgRfOXAW3H3cUuA8ezZYzZNIkAYeCPyYkvrLZUk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -380,
+        -180
+      ],
+      "id": "f8d500ea-d558-4bda-b67e-60662bf28da0",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vEOx1npRCvRB2tvL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Google Sheets').item.json['Email ID'] }}",
+        "subject": "Congratulations",
+        "emailType": "text",
+        "message": "={{ $json.output }} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1716,
+        -180
+      ],
+      "id": "790b46f3-cf1d-4d65-95c4-3a1e529bb8da",
+      "name": "Gmail",
+      "webhookId": "8ea1dd3a-8c0b-4bd2-b035-a582b29ef28a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "P83vpSii0W7yAZca",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1TUlMlgRfOXAW3H3cUuA8ezZYzZNIkAYeCPyYkvrLZUk",
+          "mode": "list",
+          "cachedResultName": "Daily report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TUlMlgRfOXAW3H3cUuA8ezZYzZNIkAYeCPyYkvrLZUk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TUlMlgRfOXAW3H3cUuA8ezZYzZNIkAYeCPyYkvrLZUk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "Name of the Team member": "={{ $json['Name of the Team member'] }}",
+            "Job Role": "={{ $json['Job Role'] }}",
+            "Task assigned": "={{ $json['Task assigned'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name of the Team member",
+              "displayName": "Name of the Team member",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Role",
+              "displayName": "Job Role",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Task assigned",
+              "displayName": "Task assigned",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status of the task",
+              "displayName": "Status of the task",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "formMode",
+              "displayName": "formMode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Urgency",
+              "displayName": "Urgency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email ID",
+              "displayName": "Email ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -600,
+        -180
+      ],
+      "id": "69b176d5-9ddc-4ab6-892c-8bff6d262c14",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vEOx1npRCvRB2tvL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -840,
+        -240
+      ],
+      "id": "565f9b48-355d-4bbe-8d03-be2cb06eba8c",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "da9ab77d-8abf-4a70-9fda-b39dbb0a8441",
+              "leftValue": "={{ $json['Status of the task'] }}",
+              "rightValue": "[\"Completed\"]",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        280,
+        -180
+      ],
+      "id": "156b4446-6307-4e7d-8ca2-6874f25917ed",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json['Email ID'] }}",
+        "subject": "fail",
+        "emailType": "text",
+        "message": "=hai  {{ $json['Name of the Team member'] }},\nFail",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        500,
+        -80
+      ],
+      "id": "66fb11aa-3af2-4a9d-b4c4-878f9236a0c0",
+      "name": "Gmail1",
+      "webhookId": "a8de9671-142c-4acb-8000-c6c6e5f7b502",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "P83vpSii0W7yAZca",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the data and provide the detailed report to the scrum master {{ $json.markdownText }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        160,
+        100
+      ],
+      "id": "c36a12d5-3d64-427c-8b7e-5054265deba3",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst markdownText = items\n  .map((item) => {\n    return `**Name of the Team member:** ${item?.json[\"Name of the Team member\"]}\n**Job Role:** ${item?.json[\"Job Role\"]}\n**Task assigned:** ${item?.json[\"Task assigned\"]}\n**Status of the task:** ${item?.json[\"Status of the task\"]}\n**Submitted At:** ${item?.json.submittedAt}\n**Form Mode:** ${item?.json.formMode}\n**Urgency:** ${item?.json.Urgency}\n**Email ID:** ${item?.json[\"Email ID\"]}\n`;\n  })\n  .join(\"\\n\");\n\nreturn { markdownText };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -180,
+        60
+      ],
+      "id": "12329f32-4e00-4200-b292-09764a7244bf",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        200,
+        320
+      ],
+      "id": "0b2bf436-36a5-4651-a430-abc18d1cc304",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "VZi4c3ZU6Yg8We1s",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ramyarajjuly@gmail.com",
+        "subject": "Daily report",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        520,
+        100
+      ],
+      "id": "4d025ae2-4df5-4157-808c-b684f664ba41",
+      "name": "Gmail2",
+      "webhookId": "dab04a20-46e8-447e-abf0-8013bd812bb3",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "P83vpSii0W7yAZca",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1040,
+        -200
+      ],
+      "id": "70b3c95d-71c5-41e5-b8ae-9d4e52cd0460",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Gmail2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fd56e7f2-0c31-4234-a202-1fba68979de7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a042f57492ac923a1259982dca1eac20ab435f8e28703ddeadb623f9c5d7f5b"
+  },
+  "id": "e5gdDiTRdFiDENC2",
+  "tags": []
+}
