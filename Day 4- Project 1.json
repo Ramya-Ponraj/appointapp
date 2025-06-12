@@ -1,0 +1,342 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "954a020a-ff53-4052-abc2-ad4488ad263d",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -180,
+        -20
+      ],
+      "id": "902a733c-e736-47ab-9c4d-b0155208c552",
+      "name": "Webhook",
+      "webhookId": "954a020a-ff53-4052-abc2-ad4488ad263d"
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookData = $input.all().map((item) => item.json.body);\n\nreturn webhookData.map((data) => {\n  return {\n    json: {\n      username: data.username,\n      project: data.project,\n      action_item: data.action_item,\n      assignee: data.assignee,\n      email: data.email,\n      due_date: data.due_date,\n    },\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        -20
+      ],
+      "id": "dda4b47e-0ac9-428f-b518-13b02594303b",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "10hUv4j5o_MLDu8QzKZdNGFhHuYrIrUFYP4cH7EvGAyk",
+          "mode": "list",
+          "cachedResultName": "employee portal",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10hUv4j5o_MLDu8QzKZdNGFhHuYrIrUFYP4cH7EvGAyk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10hUv4j5o_MLDu8QzKZdNGFhHuYrIrUFYP4cH7EvGAyk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "username"
+          ],
+          "schema": [
+            {
+              "id": "username",
+              "displayName": "username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "project",
+              "displayName": "project",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "action_item",
+              "displayName": "action_item",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "assignee",
+              "displayName": "assignee",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "due_date",
+              "displayName": "due_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        120,
+        -20
+      ],
+      "id": "22798ece-c761-486d-9a43-685f61f1b667",
+      "name": "Google Sheets",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vEOx1npRCvRB2tvL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "10hUv4j5o_MLDu8QzKZdNGFhHuYrIrUFYP4cH7EvGAyk",
+          "mode": "list",
+          "cachedResultName": "employee portal",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10hUv4j5o_MLDu8QzKZdNGFhHuYrIrUFYP4cH7EvGAyk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10hUv4j5o_MLDu8QzKZdNGFhHuYrIrUFYP4cH7EvGAyk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        280,
+        -20
+      ],
+      "id": "ab320c66-139c-47b7-8d9a-a53b03e508ee",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vEOx1npRCvRB2tvL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Dear  {{ $json ['username'] }},\n\nThank you for participating in the recent team meeting regarding the project.\n\nAs discussed, you have been assigned the following task:\n\n\nusername: {{ $json['username'] }}\n\nProject: {{ $json['project'] }}\n\nAction_item: {{ $json['action_item'] }}\n\nAssignee: {{ $json.assignee }}\nEmail: {{ $json['email'] }}\nDue Date: {{ $json['due_date'] }}\n\n\nPlease ensure timely completion and reach out if you need any clarification or support.\n\nBest regards,\n[Dr.Ramya]\n[TL]\n\nSend the above mail content to the people without changing any format or giving additional information\ninclude all the details like assigne name , due date and all other information given , generate a mail content withh all the details , just provide the content with out any subject or other unnecssary details",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        800,
+        -20
+      ],
+      "id": "6dfe9399-c25a-4207-b9ef-cecdbb9a8af7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        740,
+        140
+      ],
+      "id": "9d633412-3ff7-4720-8a9a-94061f29078a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "VZi4c3ZU6Yg8We1s",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "={{ $('Google Sheets1').item.json['email'] }}",
+        "subject": "report",
+        "message": "=Hi, the following members has submitted the report successfully and waiting for Approval {{ $json.output }}\n",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1160,
+        -20
+      ],
+      "id": "2307913e-efa1-4997-932e-57e1a5562aba",
+      "name": "Gmail",
+      "webhookId": "04baa71a-56bb-492a-b285-b144d15a955a",
+      "alwaysOutputData": false,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "P83vpSii0W7yAZca",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst webhookData = $(\"Webhook\").all();\n\nconst updatedItems = items.map((item) => {\n  const matchedWebhookData = webhookData.find(\n    (webhookItem) => webhookItem?.json?.body?.username === item?.json?.username,\n  );\n  if (matchedWebhookData) {\n    Object.assign(item.json, matchedWebhookData.json.body);\n  }\n  return item;\n});\n\nreturn updatedItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        500,
+        -20
+      ],
+      "id": "af965810-c00a-406f-b7fc-7c33f25805bf",
+      "name": "Code1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "37f5a146-bef2-4ddb-9d65-42f61ba601bb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9a042f57492ac923a1259982dca1eac20ab435f8e28703ddeadb623f9c5d7f5b"
+  },
+  "id": "D72yPjhVWOMbBbvx",
+  "tags": []
+}
